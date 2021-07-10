@@ -6,10 +6,11 @@ const {
   getCiphers,
 } = require('crypto');
 
-// Generate a secret key for AES-256-CBC ( Will return a random hex string from 16 bytes )
-const secretKey = () => randomBytes(16).toString('hex');
-// Generate a secret key for AES-192-CCM ( Will return a random hex string from 32 bytes )
-const secretKeyCCM = () => randomBytes(24).toString('hex');
+const AES = require('./AES');
+const AES_CCM = require('./AES-CCM');
+
+// Generate a secret key for encryption and decryption
+const secretKey = (bytes) => randomBytes(bytes).toString('hex');
 
 // Salt and hash a String, Buffer, TypedArray, or DataView
 const saltHash = (data, options) => {
@@ -30,8 +31,13 @@ const saltHash = (data, options) => {
 };
 
 // AES-256-CBC + HMAC-SHA256 encryption, returning the IV and encrypted string
-const encryptIv = (data, key, inEncoding, outEncoding, iv) => {
-  if (!iv) iv = randomBytes(16);
+const encryptIv = (data, key, options) => {
+  const { encoding: { in, out }, iv } = Object.assign({
+    // Encoding of the input data and ouput string
+    encoding: { in: null, out: null },
+    // Will default IV to a random 16 byte Buffer, if not provided
+    iv: randomBytes(16),
+  }, options);
 
   const cipher = createCipheriv('aes-256-cbc-hmac-sha256', key, iv);
   let encrypted = cipher.update(data, inEncoding, outEncoding);
@@ -41,7 +47,13 @@ const encryptIv = (data, key, inEncoding, outEncoding, iv) => {
 };
 
 // AES-256-CBC + HMAC-SHA256 decryption, returning the decrypted string
-const decryptIv = (encrypted, key, iv, inEncoding, outEncoding) => {
+const decryptIv = (encrypted, key, options) => {
+  const { encoding: { in, out }, iv } = Object.assign({
+    // Will default these to null, as all are required for consistent encryption / decryption
+    encoding: { in: null, out: null },
+    iv: null,
+  }, options);
+
   const decipher = createDecipheriv('aes-256-cbc-hmac-sha256', key, iv);
   let decrypted = decipher.update(encrypted, inEncoding, outEncoding);
   decrypted += decipher.final(outEncoding);
@@ -49,110 +61,7 @@ const decryptIv = (encrypted, key, iv, inEncoding, outEncoding) => {
   return decrypted;
 };
 
-// const key = secretKey();
-// const data = 'hello-world';
-
-// const { encrypted, iv } = encryptIv(data, key, 'utf8', 'hex');
-// console.log(encrypted);
-// const decrypted = decryptIv(encrypted, key, iv, 'hex', 'utf8');
-
-// console.log(decrypted);
-
-// AES-256-CBC + HMAC-SHA256 encryption class
-const AES = function(key) {
-  this.key = key;
-  this.ivTable = {};
-};
-
-// Standard encryption of data, returns the encrypted string
-AES.prototype.encrypt = function(data, inEncoding, outEncoding) {
-  const iv =  randomBytes(16);
-  const cipher = createCipheriv('aes-256-cbc-hmac-sha256', this.key, iv);
-  let encrypted = cipher.update(data, inEncoding, outEncoding);
-  encrypted += cipher.final(outEncoding);
-
-  this.ivTable[encrypted] = iv;
-  return { encrypted, iv };
-};
-
-// Standard decryption of a encrypted string, returns the decrypted data
-AES.prototype.decrypt = function(encrypted, inEncoding, outEncoding) {
-  const iv = this.ivTable[encrypted];
-  const decipher = createDecipheriv('aes-256-cbc-hmac-sha256', this.key, iv);
-  let decrypted = decipher.update(encrypted, inEncoding, outEncoding);
-  decrypted += decipher.final(outEncoding);
-
-  delete this.ivTable[encrypted];
-
-  return decrypted;
-};
-
-// AES-192-ccm Encryption with CCM mode ( Add a 'AuthTag' and an additonal data authentication (AAD) )
-const AESCCM = function(key, tagLength) {
-  this.key = key;
-  this.tagLength = tagLength;
-  this.ivTable = {};
-};
-
-AESCCM.prototype.encrypt = function(data, inEncoding, outEncoding, aad) {
-  if (!Buffer.isBuffer(aad)) aad = Buffer.from(aad);
-
-  const iv = randomBytes(13);
-  const cipher = createCipheriv('aes-256-ccm', this.key, iv, {
-    authTagLength: this.tagLength,
-  });
-
-  if (aad) {
-    cipher.setAAD(aad, {
-      plaintextLength: Buffer.byteLength(data),
-    });
-  }
-
-  let encrypted = cipher.update(data, inEncoding, outEncoding);
-  encrypted += cipher.final(outEncoding);
-  const tag = cipher.getAuthTag();
-  this.ivTable[encrypted] = iv;
-
-  return { encrypted, tag, iv };
-};
-
-AESCCM.prototype.decrypt = function(encrypted, tag, inEncoding, outEncoding, aad) {
-  if (!Buffer.isBuffer(aad)) aad = Buffer.from(aad);
-
-  const iv = this.ivTable[encrypted];
-  const decipher = createDecipheriv('aes-256-ccm', this.key, iv, {
-    authTagLength: this.tagLength,
-  });
-  decipher.setAuthTag(tag);
-
-  if (aad) {
-    decipher.setAAD(aad, {
-      plaintextLength: Buffer.byteLength(encrypted) / 2,
-    });
-  }
-
-  let decrypted = decipher.update(encrypted, inEncoding, outEncoding);
-  decrypted += decipher.final(outEncoding);
-
-  delete this.ivTable[encrypted];
-
-  return decrypted;
-};
-
-const key = secretKey();
-const aesCCM = new AESCCM(key, 16);
-const aad = randomBytes(130);
-
-const data = 'testing this out';
-
-const { encrypted, tag } = aesCCM.encrypt(data, 'utf8', 'hex', aad);
-console.log(encrypted);
-
-const decrypted = aesCCM.decrypt(encrypted, tag, 'hex', 'utf8', aad);
-
-console.log(decrypted);
 module.exports = {
-  AES, saltHash, secretKey, secretKeyCCM,
+  AES, AES_CCM, saltHash, secretKey,
   encryptIv, decryptIv,
 };
-
