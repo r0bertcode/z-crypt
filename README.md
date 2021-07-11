@@ -20,10 +20,12 @@ _________
   const key = '2ba4ac21202c7619bc16e359e84fdc70';
   const aes = new AES(key);
 ```
+_________
+
 
 ### <b>encrypt:</b> AES.encrypt(data, inEncoding, outEncoding)
 <br>
-Encrypt data via AES-256-CBC with key from instance
+Encrypt data/string via AES-256-CBC with key from instance
 <br><br>
 This function will store the initial vector inside the instance via the ivTable, for lookup on decryption later, you can also obtain it via property access or the 'getIv' method
 <br><br>
@@ -60,4 +62,5 @@ outEncoding: Encoding of the output encrypted Data/String
       // cf05edcfa2....d83da6101349db0f4df46c078f73d2cc90823d8e26
 ```
 
-<br>
+_________
+<br><br>
