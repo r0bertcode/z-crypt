@@ -5,6 +5,7 @@ const {
   createDecipheriv,
   getCiphers,
 } = require('crypto');
+const error = require('./internal/error');
 
 const AES = require('./AES');
 const AES_CCM = require('./AES-CCM');
@@ -27,38 +28,84 @@ const saltHash = (data, options) => {
     encoding: 'hex',
   }, options);
 
+  if (!data) error.noParam('saltHash', 'data (data/string)');
+
   return pbkdf2Sync(data, salt, iters, keyLen, digest).toString(encoding);
 };
 
 // AES-256-CBC + HMAC-SHA256 encryption, returning the IV and encrypted string
 const encryptIv = (data, key, options) => {
-  const { encoding: { in, out }, iv } = Object.assign({
+  const { inE, outE, iv } = Object.assign({
     // Encoding of the input data and ouput string
-    encoding: { in: null, out: null },
+    inE: null,
+    outE: null,
     // Will default IV to a random 16 byte Buffer, if not provided
     iv: randomBytes(16),
   }, options);
 
+  if (!iv) error.noParam('encryptIv', 'iv (inital vector)');
+  if (!inE) error.noParam('encryptIv', 'inE (input encoding)');
+  if (!outE) error.noParam('encryptIv', 'outE (output encoding)');
+  if (!data) error.noParam('encryptIv', 'data (data/string)');
+
   const cipher = createCipheriv('aes-256-cbc-hmac-sha256', key, iv);
-  let encrypted = cipher.update(data, inEncoding, outEncoding);
-  encrypted += cipher.final(outEncoding);
+  let encrypted = cipher.update(data, inE, outE);
+  encrypted += cipher.final(outE);
 
   return { encrypted, iv };
 };
 
 // AES-256-CBC + HMAC-SHA256 decryption, returning the decrypted string
-const decryptIv = (encrypted, key, options) => {
-  const { encoding: { in, out }, iv } = Object.assign({
+const decryptIv = (encrypted, key, iv, options) => {
+  const { inE, outE } = Object.assign({
     // Will default these to null, as all are required for consistent encryption / decryption
-    encoding: { in: null, out: null },
-    iv: null,
+    inE: null,
+    outE: null,
   }, options);
 
+  if (!iv) error.noParam('decryptIv', 'iv (inital vector)');
+  if (!inE) error.noParam('decryptIv', 'inE (input encoding)');
+  if (!outE) error.noParam('decryptIv', 'outE (output encoding)');
+  if (!encrypted) error.noParam('decryptIv', 'encrypted (encrypted data/string)');
+
   const decipher = createDecipheriv('aes-256-cbc-hmac-sha256', key, iv);
-  let decrypted = decipher.update(encrypted, inEncoding, outEncoding);
-  decrypted += decipher.final(outEncoding);
+  let decrypted = decipher.update(encrypted, inE, outE);
+  decrypted += decipher.final(outE);
 
   return decrypted;
+};
+
+// AES-256-CCM Mode encryption
+const encryptCCM = (data, key, options) => {
+  const { inE, outE, iv, aad } = Object.assign({
+    iv: randomBytes(13),
+    inE: null,
+    outE: null,
+    aad: null,
+  }, options);
+
+  if (!iv) error.noParam('encryptCCM', 'iv (inital vector)');
+  if (!inE) error.noParam('encryptCCM', 'inE (input encoding)');
+  if (!outE) error.noParam('encryptCCM', 'outE (output encoding)');
+  if (!data) error.noParam('encryptCCM', 'data (data/string)');
+
+};
+
+
+// AES-256-CCM Mode decryption
+const decryptCCM = (encrypted, iv, tag, options) => {
+  const { inE, outE, aad } = Object.assign({
+    inE: null,
+    outE: null,
+    aad: null,
+  }, options);
+
+  if (!iv) error.noParam('decryptCCM', 'iv (initial vector)');
+  if (!tag) error.noParam('decryptCCM', 'tag (auth tag)');
+  if (!inE) error.noParam('decryptCCM', 'inE (input encoding)');
+  if (!outE) error.noParam('decryptCCM', 'outE (output encoding)');
+  if (!encrypted) error.noParam('decryptCCM', 'encrypted (encrypted data/string)');
+
 };
 
 module.exports = {

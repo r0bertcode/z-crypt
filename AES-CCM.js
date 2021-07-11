@@ -3,6 +3,7 @@ const {
   randomBytes,
   createDecipheriv,
 } = require('crypto');
+const error = require('./internal/error');
 
 // AES-192-ccm Encryption with CCM mode ( Add a 'AuthTag' and an additonal data authentication (AAD) )
 const AES_CCM = function(key, tagLength) {
@@ -13,7 +14,11 @@ const AES_CCM = function(key, tagLength) {
 
 // AES-256 encryption with CCM Mode ( Generates an auth tag ), if aad is passed in, will also require the aad during decryption
 AES_CCM.prototype.encrypt = function(data, inEncoding, outEncoding, aad) {
-  if (!Buffer.isBuffer(aad)) aad = Buffer.from(aad);
+  if (!data) error.noParam('AES_CCM.encrypt', 'data (input data/string)');
+  if (!inEncoding) error.noParam('AES_CCM.encrypt', 'inEncoding (input encoding)');
+  if (!outEncoding) error.noParam('AES_CCM.encrypt', 'outEncoding (output encoding)');
+
+  if (aad && !Buffer.isBuffer(aad)) aad = Buffer.from(aad);
 
   const iv = randomBytes(13);
   const cipher = createCipheriv('aes-256-ccm', this.key, iv, {
@@ -36,7 +41,11 @@ AES_CCM.prototype.encrypt = function(data, inEncoding, outEncoding, aad) {
 
 // AES-256 encryption with CCM Mode, requires the auth tag, and the aad if used during in encryption
 AES_CCM.prototype.decrypt = function(encrypted, tag, inEncoding, outEncoding, aad) {
-  if (!Buffer.isBuffer(aad)) aad = Buffer.from(aad);
+  if (!inEncoding) error.noParam('AES_CCM.decrypt', 'inEncoding (input encoding)');
+  if (!outEncoding) error.noParam('AES_CCM.decrypt', 'outEncoding (output encoding)');
+  if (!encrypted) error.noParam('AES_CCM.decrypt', 'encrypted (encrypted data/string)');
+
+  if (aad && !Buffer.isBuffer(aad)) aad = Buffer.from(aad);
 
   const iv = this.ivTable[encrypted];
   const decipher = createDecipheriv('aes-256-ccm', this.key, iv, {
@@ -64,7 +73,7 @@ AES_CCM.prototype.getIv = function(encrypted) {
 };
 
 // Get entire IV table
-AES_CCM.prototype.getIvTable = function(encrypted) {
+AES_CCM.prototype.getIvTable = function() {
   return this.ivTable;
 };
 
