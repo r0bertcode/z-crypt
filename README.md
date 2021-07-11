@@ -1,46 +1,63 @@
 # cryptic-js
-Node.js Library built on-top of Node.js' 'Crypto' module. When using the module myself I found it a bit cumbersome at times and I am providing a cleaner API to access the underlying methods in a more standardized way.
 
+Node-JS Cryptography Library implementing the following
 
-# Docs
+- AES-256-CBC with HMAC-SHA256
 
-## saltHash (data, [options]) : Hash and salt data
+- AES-256 with CCM Mode, and AAD
 
-Returns the hashed and salted key ( Uses PBKDF2 )
+- Hashing + Salt function via PBKDF2S
+
+_________
+
+## <b>AES Class</b>
+
+### <b>constructor:</b> AES(key)
+
 ```
-  data can be of Type: String, Buffer, TypedArray, DataView
+  const { AES } = require('cryptic-js');
 
-  options => {
-    // Salt needs to be minimum 16 bytes
-    salt: Salt to add to the hash (Default: 116-10016 random bytes)
+  const key = '2ba4ac21202c7619bc16e359e84fdc70';
+  const aes = new AES(key);
+```
 
-    // The higher, the more secure, and the longer it will take
-    iters: Number of iters for the hash algo (Default: 100000)
+### <b>encrypt:</b> AES.encrypt(data, inEncoding, outEncoding)
+<br>
+Encrypt data via AES-256-CBC with key from instance
+<br><br>
+This function will store the initial vector inside the instance via the ivTable, for lookup on decryption later, you can also obtain it via property access or the 'getIv' method
+<br><br>
+<b>data:</b> String/Data to be encrypted
+<br><br>
+<b>inEncoding</b>: Encoding of the inputed Data/String Ex. hex, utf-8, binary
+<br><br>
+<b>outEncoding</b>: Encoding of the returned encrypted string
+<br><br>
+Valid encodings include:
+<br><br>
+hex, binary, base64, utf-8, usc2, utf16le, latin1, ascii
+<br><br>
 
-    keyLen: Length of the output key (Default: 64)
+```
+Data: Data/String to encrypt
 
-    digest: HMAC digest algorithm (Default: 'sha512')
+inEncoding: Encoding of the input Data/String
 
-    encoding: encoding of the output (Default: 'hex')
-  }
+outEncoding: Encoding of the output encrypted Data/String
 
+  Example Usage:
 
-  Usage example:
+      const { AES } = require('cryptic-js');
 
-  const userPassword = 'bestPassword';
+      const key = '2ba4ac21202c7619bc16e359e84fdc70';
+      const aes = new AES(key);
 
-  const salted = cryptic.saltHash(userPassword);
+      const data = JSON.stringify({ hello: 'world' });
 
-  console.log(salted) => a6ec645c5744786b046e7....fb5fb03
+      const encrypted = aes.encrypt(data, 'utf-8', 'hex');
 
-  With custom configuration:
-
-  const salted = cryptic.saltHash(userPassword, { iters: 1000000 })
-
+      console.log(encrypted)
+      // cf05edcfa2....d83da6101349db0f4df46c078f73d2cc90823d8e26
 ```
 
 <br>
-
-## encryptIv (data, key, [options])
-
-Returns the encrypted data and the IV ( initialization vector )

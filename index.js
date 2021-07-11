@@ -32,6 +32,14 @@ const saltHash = (data, options) => {
   return pbkdf2Sync(data, salt, iters, keyLen, digest).toString(encoding);
 };
 
+const key = '2ba4ac21202c7619bc16e359e84fdc70';
+const aes = new AES(key);
+
+const data = JSON.stringify({ hello: 'world' });
+
+const encrypted = aes.encrypt(data, 'utf-8', 'hex');
+
+console.log(encrypted);
 // AES-256-CBC + HMAC-SHA256 encryption, returning the IV and encrypted string
 const encryptIv = (data, key, options) => {
   const { inE, outE, iv } = Object.assign({
