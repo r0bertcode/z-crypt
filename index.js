@@ -3,7 +3,6 @@ const {
   randomBytes,
   pbkdf2Sync,
   createDecipheriv,
-  getCiphers,
 } = require('crypto');
 const error = require('./internal/error');
 
@@ -77,38 +76,71 @@ const decryptIv = (encrypted, key, iv, options) => {
 
 // AES-256-CCM Mode encryption
 const encryptCCM = (data, key, options) => {
-  const { inE, outE, iv, aad } = Object.assign({
+  let { inE, outE, iv, tagLength, aad } = Object.assign({
     iv: randomBytes(13),
-    inE: null,
-    outE: null,
+    inE: 'utf-8',
+    outE: 'hex',
     aad: null,
+    tagLength: 16,
   }, options);
 
-  if (!iv) error.noParam('encryptCCM', 'iv (inital vector)');
-  if (!inE) error.noParam('encryptCCM', 'inE (input encoding)');
-  if (!outE) error.noParam('encryptCCM', 'outE (output encoding)');
-  if (!data) error.noParam('encryptCCM', 'data (data/string)');
+  if (!data) error.noParam('encryptCCM', 'data (string to encrypt)');
+  if (!key) error.noParam('encryptCCM', 'key (secret key)');
 
+  if (aad && !Buffer.isBuffer(aad)) aad = Buffer.from(aad);
+
+  const cipher = createCipheriv('aes-256-ccm', key, iv, {
+    authTagLength: tagLength,
+  });
+
+  if (aad) {
+    cipher.setAAD(aad, {
+      plaintextLength: Buffer.byteLength(data),
+    });
+  }
+
+  let encrypted = cipher.update(data, inE, outE);
+  encrypted += cipher.final(outE);
+  const tag = cipher.getAuthTag();
+
+  return { encrypted, tag, iv };
 };
 
 
 // AES-256-CCM Mode decryption
 const decryptCCM = (encrypted, iv, tag, options) => {
-  const { inE, outE, aad } = Object.assign({
-    inE: null,
-    outE: null,
+  let { inE, outE, tagLength, aad } = Object.assign({
+    inE: 'hex',
+    outE: 'utf-8',
     aad: null,
+    tagLength: 16,
   }, options);
 
   if (!iv) error.noParam('decryptCCM', 'iv (initial vector)');
   if (!tag) error.noParam('decryptCCM', 'tag (auth tag)');
-  if (!inE) error.noParam('decryptCCM', 'inE (input encoding)');
-  if (!outE) error.noParam('decryptCCM', 'outE (output encoding)');
-  if (!encrypted) error.noParam('decryptCCM', 'encrypted (encrypted data/string)');
+  if (!encrypted) error.noParam('decryptCCM', 'encrypted (encrypted string)');
 
+  if (aad && !Buffer.isBuffer(aad)) aad = Buffer.from(aad);
+
+  const decipher = createDecipheriv('aes-256-ccm', key, iv, {
+    authTagLength: tagLength,
+  });
+  decipher.setAuthTag(tag);
+
+  if (aad) {
+    decipher.setAAD(aad, {
+      plaintextLength: Buffer.byteLength(encrypted) / 2,
+    });
+  }
+
+  let decrypted = decipher.update(encrypted, inE, outE);
+  decrypted += decipher.final(outE);
+
+  return decrypted;
 };
 
 module.exports = {
   AES, AES_CCM, saltHash, secretKey,
-  encryptIv, decryptIv,
+  encryptIv, decryptIv, encryptCCM,
+  decryptCCM,
 };
