@@ -124,7 +124,7 @@ outEncoding: Encoding of the output decrypted Data/String
 
 
 ### In the case you need to provide a IV not on the table
-This is not standard functionality, and I would reccomend using the static 'encryptIv' and 'decryptIv' if you find yourself often needing to carry on or pass along the IV.
+This is not standard functionality, and I would reccomend using the 'encryptIv' and 'decryptIv' functions if you find yourself often needing to carry on or pass along the IV.
 <br><br>
 If the IV is not from a previous encryption, you can simply set it to the IV table, and use the function as noraml by doing something like this (example below) or using the .setIv method
 
