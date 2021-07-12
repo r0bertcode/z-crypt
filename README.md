@@ -34,6 +34,8 @@ _________
   const key = '2ba4ac21202c7619bc16e359e84fdc70';
   const aes = new AES(key);
 ```
+
+The AES Class has a property called 'ivTable', here the IV's of the encrypted strings are stored and will be removed on decryption and a property called 'key' where the secret key is stored.
 _________
 
 
