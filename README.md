@@ -47,7 +47,7 @@ The AES Class has a property called 'ivTable', here the IV's of the encrypted st
 _________
 
 
-### <b>encrypt:</b> AES.encrypt(data, inEncoding, outEncoding)
+### <b>AES.encrypt:</b> (data, inEncoding, outEncoding)
 <br>
 Encrypt data/string via AES-256-CBC with key from instance, returns the encrypted string in the encoding of your choice via outEncoding.
 <br><br>
@@ -90,7 +90,7 @@ _________
 
 
 
-### <b>decrypt:</b> AES.decrypt(encrypted, inEncoding, outEncoding)
+### <b>AES.decrypt:</b> (encrypted, inEncoding, outEncoding)
 <br>
 Decrypt encrypted string via AES-256-CBC with key from instance, returns the decrypted data/string in the encoding of your choice via outEncoding.
 <br><br>
