@@ -2,26 +2,34 @@
 
 Node-JS Cryptography Library implementing the following
 
-- AES-256-CBC with HMAC-SHA256
+- AES-256-CBC with HMAC-SHA256 encryption and decryption
 
-- AES-256 with CCM Mode, and AAD
+- AES-256-CCM Mode(and AAD) encrpytion and decryption
 
-- Hashing + Salt function via PBKDF2S
+- Hashing + Salting via PBKDF2S/SHA512
+
+- File encryption and decrpytion via AES-256-CBC-HMAC-SHA256 or AES-256-CCM
 
 The Library is split into Classes, that take on a key and use re-use it, and core functions that either add utility or achieve similiar things with more options avaliable.
 ____
 Layout
 
-- AES Class = AES-256-CBC-HMAC-SHA256 encryption/decryption
-- AES_CCM Class = AES-256-CCM with AAD encryption/decryption
+- <b>AES Class</b> | AES-256-CBC-HMAC-SHA256 encryption/decryption
+- <b> AES_CCM Class </b> | AES-256-CCM with AAD encryption/decryption
 
-- encryptIv/decryptIv = AES-256-CBC-HMAC-SHA256 encryption decryption with optional param to provide custom IV ( Initial Vector )
+- <b> encrypt/decrypt </b> | AES-256-CBC-HMAC-SHA256 encryption decryption with optional param to provide custom IV ( Initial Vector )
 
-- encryptCCM/decryptCCM = AES-256-CCM encryption/decryption with optional params to provide custom IV or AAD ( Additional authenticated data )
+- <b> encryptCCM/decryptCCM</b> | AES-256-CCM encryption/decryption with optional params to provide custom IV or AAD ( Additional authenticated data )
 
-- saltHash = Hash and then salt data/string, using PBKDF2S
+- <b> hashPBK </b> | Hash and then salt data/string, using PBKDF2S
 
-- secretKey = Util function to generate a hex key of N bytes
+- <b> hashSHA </b> | Hash with optional salt, using SHA512
+
+- <b> encryptFile/decrpytFile </b> | File encryption and decryption, utilizing AES-256-CBC with HMAC-SHA256
+
+- <b> encryptFileCCM/decryptFileCCM </b> | File encryption and decryption, utilizing AES-256-CCM
+
+- <b> secretKey </b> | Util function to generate a hex key of N bytes
 _________
 
 ## <b>AES Class</b>
