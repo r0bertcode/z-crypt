@@ -30,7 +30,7 @@ test('encryptFile and decrpytFile should work as expected', () => {
     expect(string).toEqual('hello');
 });
 
-test('encryptFileCCM and decryptFileCCM should work as expected w/o AAD', () => {
+test('encryptFileCCM and decryptFileCCM should work as expected w/ or w/o AAD', () => {
     const testFile1 = path.join(__dirname, '/textFiles/file_test_2.txt');
     const testFile2 = path.join(__dirname, '/textFiles/file_test_3.txt');
     const aad = 'mySecretPass';
