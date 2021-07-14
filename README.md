@@ -44,6 +44,7 @@ npm install --save cryptic-js
   - <b>inE</b>: encoding of the inputed data (default: "utf-8")
   - <b>outE</b>: encoding of the encrypted string (default: "hex")
   - <b>iv</b> (Optional): Initial vector for encryption, by default will generate a random Buffer of 16 bytes for you
+    - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
 Encrypts data with provided key, and returns the encrypted string as well as the IV (Initial Vector) from encryption.
 
@@ -76,6 +77,9 @@ Decrypts encrypted string, using the same key and iv from encryption of that str
 * <b>options</b>:
   - <b>inE</b>: encoding of the encrypted string (default: "hex")
   - <b>outE</b>: encoding of the encrypted string (default: "utf-8")
+    - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+
+<br/>
 
 <b>Example usage</b>:
 
