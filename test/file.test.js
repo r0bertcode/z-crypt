@@ -1,4 +1,3 @@
-const exp = require('constants');
 const { readFileSync } = require('fs');
 const path = require('path');
 
