@@ -1,8 +1,6 @@
 const { readFileSync } = require('fs');
 const path = require('path');
-
 const { encryptFile, decryptFile, encryptFileCCM, decryptFileCCM } = require('../lib/file');
-
 const { secretKey } = require('../lib/index');
 
 const key = secretKey(16);

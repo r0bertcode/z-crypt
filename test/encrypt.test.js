@@ -1,9 +1,7 @@
 const { encrypt, decrypt, encryptCCM, decryptCCM } = require('../lib/encrypt');
-
 const { secretKey } = require('../lib/index');
 
 const key = secretKey(16);
-
 const data = JSON.stringify({ test: true });
 
 test('encrypt and decrypt should work as expected', () => {
