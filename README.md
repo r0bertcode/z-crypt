@@ -39,7 +39,7 @@ Layout
 
 ### <b>constructor:</b> AES(key)
 
-### <b>key</b>: Secret key ( 16 Bytes )
+### <b>key</b>: Secret key ( 16 Bytes string or buffer )
 
 ```
   const { AES } = require('cryptic-js');
@@ -76,12 +76,6 @@ hex, binary, base64, utf-8, usc2, utf16le, latin1, ascii
 <br><br>
 
 ```
-data: Data/String to encrypt
-
-inEncoding: Encoding of the input Data/String
-
-outEncoding: Encoding of the output encrypted Data/String
-
   Example Usage:
 
       const { AES } = require('cryptic-js');
@@ -116,12 +110,6 @@ hex, binary, base64, utf-8, usc2, utf16le, latin1, ascii
 <br><br>
 
 ```
-encrypted: encrypted Data/String
-
-inEncoding: Encoding of the encrypted Data/String
-
-outEncoding: Encoding of the output decrypted Data/String
-
   Example Usage:
 
       const { AES } = require('cryptic-js');
