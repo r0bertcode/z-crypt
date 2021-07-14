@@ -11,7 +11,9 @@ Node-JS Cryptography Library implementing the following
 - File encryption and decrpytion via AES-256-CBC-HMAC-SHA256 or AES-256-CCM
 
 The Library is split into Classes, that take on a key and use re-use it, and core functions that either add utility or achieve similiar things with more options avaliable.
-____
+
+---
+
 Layout
 
 - <b>AES Class</b> | AES-256-CBC-HMAC-SHA256 encryption/decryption
@@ -30,11 +32,14 @@ Layout
 - <b> encryptFileCCM/decryptFileCCM </b> | File encryption and decryption, utilizing AES-256-CCM
 
 - <b> secretKey </b> | Util function to generate a hex key of N bytes
-_________
+
+---
 
 ## <b>AES Class</b>
 
 ### <b>constructor:</b> AES(key)
+
+### <b>key</b>: Secret key ( 16 Bytes )
 
 ```
   const { AES } = require('cryptic-js');
@@ -44,15 +49,21 @@ _________
 ```
 
 The AES Class has a property called 'ivTable', here the IV's of the encrypted strings are stored and will be removed on decryption and a property called 'key' where the secret key is stored.
-_________
 
+---
 
 ### <b>AES.encrypt:</b> (data, inEncoding, outEncoding)
+
 <br>
-Encrypt data/string via AES-256-CBC with key from instance, returns the encrypted string in the encoding of your choice via outEncoding.
-<br><br>
-This function will store the initial vector inside the instance via the ivTable, for lookup on decryption later, you can also obtain it via property access or the 'getIv' method
-<br><br>
+Encrypt data/string via AES-256-CBC with key from instance, returns the encrypted string in the encoding of your choice via outEncoding. Note: If passed an Object or array, will convert to a JSON string in utf-8 encoding, but is reccomended only to pass strings.
+<br></br>
+This function will store the initial vector inside the instance via the ivTable, for lookup on decryption later, you can also obtain it via property access of the 'ivTable'
+<br></br>
+
+```
+  aes.ivTable[encryptedString] === IV for the encrypted string
+```
+
 <b>data:</b> String/Data to be encrypted
 <br><br>
 <b>inEncoding</b>: Encoding of the inputed Data/String Ex. hex, utf-8, binary
@@ -86,11 +97,10 @@ outEncoding: Encoding of the output encrypted Data/String
       // cf05edcfa2....d83da6101349db0f4df46c078f73d2cc90823d8e26
 ```
 
-_________
-
-
+---
 
 ### <b>AES.decrypt:</b> (encrypted, inEncoding, outEncoding)
+
 <br>
 Decrypt encrypted string via AES-256-CBC with key from instance, returns the decrypted data/string in the encoding of your choice via outEncoding.
 <br><br>
@@ -132,19 +142,14 @@ outEncoding: Encoding of the output decrypted Data/String
       // {"hello":"world"}
 ```
 
-
 ### In the case you need to provide a IV not on the table
-This is not standard functionality, and I would reccomend using the 'encryptIv' and 'decryptIv' functions if you find yourself often needing to carry on or pass along the IV.
-<br><br>
-If the IV is not from a previous encryption, you can simply set it to the IV table, and use the function as noraml by doing something like this (example below) or using the .setIv method
+
+If the IV is not from a previous encryption, you can simply set it to the IV table, and use the function as noraml by doing something like this (example below).
 
 ```
-  const iv = randomBytes(16);
+  const myIv = randomBytes(16);
 
-  aes.ivTable[encryptedString] = iv;
-
-  OR
-
-  aes.setIv(encryptedString, iv);
+  aes.ivTable[encryptedString] = myIv;
 ```
-___
+
+---
