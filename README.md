@@ -12,13 +12,13 @@ npm install --save cryptic-js
 
 ### Stand-alone encryption
 
-- [encrypt](#encrypt) | AES-256-CBC with HMAC-SHA256 encryption
+- [encrypt](#encrypt-data-key--options) | AES-256-CBC with HMAC-SHA256 encryption
 
-- [decrypt](#decrypt) | AES-256-CBC with HMAC-SHA256 decryption
+- [decrypt](#decrypt-encrypted-key-iv--options) | AES-256-CBC with HMAC-SHA256 decryption
 
-- [encryptCCM](#encryptCCM) | AES-256-CCM encryption with optional AAD
+- [encryptCCM](#encryptccm-data-key--options) | AES-256-CCM encryption with optional AAD
 
-- [decryptCCM](#decryptCCM) | AES-256-CCM decryption with optional AAD
+- [decryptCCM](#decryptccm-encrypted-key-iv-tag--options) | AES-256-CCM decryption with optional AAD
 
 ### Encryption classes
 
@@ -31,13 +31,13 @@ npm install --save cryptic-js
 
 ### File encryption
 
-- [encryptFile](#encryptFile) | AES-256-CBC with HMAC-SHA256 file encryption
+- [encryptFile](#) | AES-256-CBC with HMAC-SHA256 file encryption
 
-- [decryptFile](#decryptFile) | AES-256-CBC with HMAC-SHA256 file decryption
+- [decryptFile](#) | AES-256-CBC with HMAC-SHA256 file decryption
 
-- [encryptFileCCM](#encryptFileCCM) | AES-256-CCM file encryption with optional AAD
+- [encryptFileCCM](#) | AES-256-CCM file encryption with optional AAD
 
-- [decryptFileCCM](#decryptFileCCM) | AES-256-CCM file decryption with optional AAD
+- [decryptFileCCM](#) | AES-256-CCM file decryption with optional AAD
 
 ### <b>encrypt (data, key, [ options])</b>
 
