@@ -2,7 +2,7 @@
 
 The cryptic library is a cryptography library for Node.js created on-top of Node.js' Crypto module.
 
-It provides a standardized API to access encryption/decryption of data/strings and files utilizing AES-256-CBC with HMAC-SHA-256 and support for CCM Mode and AAD authorization with AES-256-CCM, and hashing/salting with PBKDF2S and SHA512.
+It provides a standardized API to access encryption/decryption of data/strings and files utilizing AES-256-CBC with HMAC-SHA-256 and support for CCM Mode and AAD authorization with AES-256-CCM, and hashing/salting with PBKDF2S and SHA512. The stand-alone functions offer more/easier customization while the classes are designed for repetitive
 
 ```
 npm install --save cryptic-js
@@ -56,7 +56,7 @@ npm install --save cryptic-js
 
     - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
-Encrypts data with provided key via AES-256-CBC-HMAC-SHA-256, and returns the encrypted string as well as the IV (Initial Vector) from encryption.
+Encrypts data with provided key via AES-256-CBC-HMAC-SHA-256, and returns the encrypted string as well as the IV (Initial Vector) from encryption, defaults encoding for the input to UTF-8 and the output encrypted string to Hex.
 
 Note: Will accept Objects / Arrays as data param but will JSON.stringify them
 
@@ -138,7 +138,7 @@ console.log(decrypted);
 
     - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
-Encrypts data with provided key via AES-256-CCM, and returns the encrypted string as well as the IV (Initial Vector) from encryption and the tag (Authorization tag) that is required for decryption.
+Encrypts data with provided key via AES-256-CCM, and returns the encrypted string as well as the IV (Initial Vector) from encryption and the tag (Authorization tag) that is required for decryption, defaults encoding for the input to UTF-8 and the output encrypted string to Hex.
 
 Note: Will accept Objects / Arrays as data param but will JSON.stringify them
 
@@ -161,7 +161,6 @@ console.log(tag);
 
 console.log(encrypted);
 // output: ee7672dbeb0158d077da760976b361a302
-
 ```
 
 ### <b>decryptCCM (encrypted, key, iv, tag, [ options])</b>
@@ -222,4 +221,56 @@ const decrypted = decryptCCM(encrypted, key, iv, tag, { aad });
 
 console.log(decrypted);
 // output: important message
+```
+
+### <b> Class: AES(key) </b>
+
+---
+
+- <b>key</b>: Secret key to use for encryption ( 16 Bytes )
+
+The AES Class implements encryption and decryption via AES-256-CBC w/ HMAC-SHA-256. The class has one other property:
+
+- <b>AES.ivTable</b>: A object that is populated with key value pairs of encrypted strings matched with their Initial Vector, this simplifies use, and will automatically clear the string with it's IV on decryption, or load it on encryption. This object can be used to access the IV for a specific encrypted string.
+
+```
+const { secretKey, AES } = require('cryptic-js');
+
+const key = secretKey(16);
+const aes = new AES(key);
+```
+
+### <b> AES.encrypt(data, [ inEncoding], [ outEncoding]) </b>
+
+---
+
+- <b>data</b>: Data/string/object/array to encrypt
+
+- <b>inEncoding</b>: encoding of the inputed data (default: "utf-8")
+- <b>outEncoding</b>: encoding of the encrypted string (default: "hex")
+
+  - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+
+Encrypt data with the key from the instance, using AES-256-CBC with HMAC-SHA-256, returns the encrypted string, defaults encoding for the input to UTF-8 and the output encrypted string to Hex.
+
+Note: if you need access to the IV from the encryption for transmission, access it through the AES.ivTable
+
+```
+AES.ivTable[encryptedString] === encrypted strings IV
+```
+
+<b> Example usage</b>:
+
+```
+const { secretKey, AES } = require('cryptic-js');
+
+const key = secretKey(16);
+const aes = new AES(key);
+
+const data = 'important message';
+
+const encrypted = aes.encrypt(data);
+
+console.log(encrypted);
+// outputs: 2fa6002ba81918c6....4fa0fda029a2e715cf5
 ```
