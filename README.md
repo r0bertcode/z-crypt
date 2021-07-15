@@ -2,7 +2,7 @@
 
 The cryptic library is a cryptography library for Node.js created on-top of Node.js' Crypto module.
 
-It provides a standardized API to access encryption/decryption of data/strings and files utilizing AES-256-CBC with HMAC-SHA-256 and support for CCM Mode and AAD authorization with AES-256-CCM, and hashing/salting with PBKDF2S and SHA512. The stand-alone functions offer more/easier customization while the classes are designed for repetitive
+It provides a standardized API to access encryption/decryption of data/strings and files utilizing AES-256-CBC with HMAC-SHA-256 and support for CCM Mode and AAD authorization with AES-256-CCM, and hashing/salting with PBKDF2S and SHA512.
 
 ```
 npm install --save cryptic-js
@@ -10,34 +10,34 @@ npm install --save cryptic-js
 
 ## Table of contents
 
-### Stand-alone encryption
+### Stand-alone encryption / decryption
 
-- [encrypt](#encrypt-data-key--options) | AES-256-CBC with HMAC-SHA256 encryption
+- <b>[encrypt](#encrypt-data-key--options)</b> | AES-256-CBC with HMAC-SHA256 encryption
 
-- [decrypt](#decrypt-encrypted-key-iv--options) | AES-256-CBC with HMAC-SHA256 decryption
+- <b>[decrypt](#decrypt-encrypted-key-iv--options)</b> | AES-256-CBC with HMAC-SHA256 decryption
 
-- [encryptCCM](#encryptccm-data-key--options) | AES-256-CCM encryption with optional AAD
+- <b>[encryptCCM](#encryptccm-data-key--options)</b> | AES-256-CCM encryption with optional AAD
 
-- [decryptCCM](#decryptccm-encrypted-key-iv-tag--options) | AES-256-CCM decryption with optional AAD
+- <b>[decryptCCM](#decryptccm-encrypted-key-iv-tag--options)</b> | AES-256-CCM decryption with optional AAD
 
 ### Encryption classes
 
-- [AES Class](#AES-Class) | AES-256-CBC with HMAC-SHA-256
+- <b>[AES Class](#AES-Class)</b> | AES-256-CBC with HMAC-SHA-256
   - [encrypt](#AES.encrypt)
   - [decrypt](#AES.decrypt)
-- [AES CCM Class](#AES-CCM-Class) | AES-256-CCM with optional AAD
+- <b>[AES CCM Class](#AES-CCM-Class)</b> | AES-256-CCM with optional AAD
   - [encrypt](#AES_CCM.encrypt)
   - [decrypt](#AES_CCM.decrypt)
 
 ### File encryption
 
-- [encryptFile](#) | AES-256-CBC with HMAC-SHA256 file encryption
+- <b>[encryptFile](#)</b> | AES-256-CBC with HMAC-SHA256 file encryption
 
-- [decryptFile](#) | AES-256-CBC with HMAC-SHA256 file decryption
+- <b>[decryptFile](#)</b> | AES-256-CBC with HMAC-SHA256 file decryption
 
-- [encryptFileCCM](#) | AES-256-CCM file encryption with optional AAD
+- <b>[encryptFileCCM](#)</b> | AES-256-CCM file encryption with optional AAD
 
-- [decryptFileCCM](#) | AES-256-CCM file decryption with optional AAD
+- <b>[decryptFileCCM](#)</b> | AES-256-CCM file decryption with optional AAD
 
 ### <b>encrypt (data, key, [ options])</b>
 
@@ -49,10 +49,10 @@ npm install --save cryptic-js
 
 * <b>options</b>:
 
-  - <b>inE</b>: encoding of the inputed data (default: "utf-8")
-  - <b>outE</b>: encoding of the encrypted string (default: "hex")
+  - <b>inE</b>: encoding of the inputed data (<b>default:</b> "utf-8")
+  - <b>outE</b>: encoding of the encrypted string (<b>default:</b> "hex")
 
-  - <b>iv</b>: Initial vector for encryption (default: 16 random byte Buffer )
+  - <b>iv</b>: Initial vector for encryption (<b>default:</b> 16 random byte Buffer )
 
     - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
@@ -85,13 +85,13 @@ console.log(encrypted);
 - <b>iv</b>: Initial vector used in encryption
 
 * <b>options</b>:
-  - <b>inE</b>: encoding of the encrypted string (default: "hex")
-  - <b>outE</b>: encoding of the encrypted string (default: "utf-8")
+  - <b>inE</b>: encoding of the encrypted string (<b>default:</b> "hex")
+  - <b>outE</b>: encoding of the encrypted string (<b>default:</b> "utf-8")
     - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
 <br/>
 
-Decrypts encrypted string via AES-256-CBC-HMAC-SHA-256, using the same key and iv from encryption of that string. Will return the decrypted data in the encoding of choice (default: "utf-8")
+Decrypts encrypted string via AES-256-CBC-HMAC-SHA-256, using the same key and iv from encryption of that string. Will return the decrypted data in the encoding of choice (<b>default:</b> "utf-8")
 
 <b>Example usage</b>:
 
@@ -126,11 +126,11 @@ console.log(decrypted);
 
 * <b>options</b>:
 
-  - <b>inE</b>: encoding of the inputed data (default: "utf-8")
-  - <b>outE</b>: encoding of the encrypted string (default: "hex")
+  - <b>inE</b>: encoding of the inputed data (<b>default:</b> "utf-8")
+  - <b>outE</b>: encoding of the encrypted string (<b>default:</b> "hex")
 
-  - <b>iv</b>: Initial vector for encryption (default: 13 random byte Buffer )
-  - <b>tagLength</b>: Length of the authorization tag in bytes (default: 16)
+  - <b>iv</b>: Initial vector for encryption (<b>default:</b> 13 random byte Buffer )
+  - <b>tagLength</b>: Length of the authorization tag in bytes (<b>default:</b> 16)
 
   - <b>aad</b> (Optional): Additional authenticated data ( string or buffer )
 
@@ -167,7 +167,7 @@ console.log(encrypted);
 
 ---
 
-Decrypts encrypted string via AES-256-CCM using the same key, iv, and tag from encryption of that string. Will return the decrypted data in the encoding of choice (default: "utf-8"), if the 'aad' option was used in encryption, it is required for decryption.
+Decrypts encrypted string via AES-256-CCM using the same key, iv, and tag from encryption of that string. Will return the decrypted data in the encoding of choice (<b>default:</b> "utf-8"), if the 'aad' option was used in encryption, it is required for decryption.
 
 - <b>encrypted</b>: Encrypted string to decrypt
 
@@ -179,11 +179,11 @@ Decrypts encrypted string via AES-256-CCM using the same key, iv, and tag from e
 
 * <b>options</b>:
 
-  - <b>inE</b>: encoding of the encrypted string (default: "hex")
+  - <b>inE</b>: encoding of the encrypted string (<b>default:</b> "hex")
 
-  - <b>outE</b>: encoding of the encrypted string (default: "utf-8")
+  - <b>outE</b>: encoding of the encrypted string (<b>default:</b> "utf-8")
 
-  - <b>tagLength</b>: Length of the authorization tag in bytes (default: 16)
+  - <b>tagLength</b>: Length of the authorization tag in bytes (<b>default:</b> 16)
 
   - <b>aad</b> (Optional): Additional authenticated data ( string or buffer )
 
@@ -246,8 +246,9 @@ const aes = new AES(key);
 
 - <b>data</b>: Data/string/object/array to encrypt
 
-- <b>inEncoding</b>: encoding of the inputed data (default: "utf-8")
-- <b>outEncoding</b>: encoding of the encrypted string (default: "hex")
+- <b>inEncoding</b>: encoding of the inputed data (<b><b>default:</b></b> "utf-8")
+
+- <b>outEncoding</b>: encoding of the encrypted string (<b><b>default:</b></b> "hex")
 
   - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
@@ -274,3 +275,15 @@ const encrypted = aes.encrypt(data);
 console.log(encrypted);
 // outputs: 2fa6002ba81918c6....4fa0fda029a2e715cf5
 ```
+
+### <b> AES.encrypt(data, [ inEncoding], [ outEncoding]) </b>
+
+---
+
+- <b>data</b>: Data/string/object/array to encrypt
+
+- <b>inEncoding</b>: encoding of the encrypted string (<b><b>default:</b></b> "hex")
+
+- <b>outEncoding</b>: encoding of decrypted data/string (<b><b>default:</b></b> "utf-8")
+
+  - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
