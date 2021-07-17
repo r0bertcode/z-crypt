@@ -42,6 +42,7 @@ npm install --save cryptic-js
 - <b>[decryptFileCCM](#)</b> | AES-256-CCM file decryption with optional AAD
 
 ### Hashing
+
 - <b>[hashSHA](#)</b> | Hash via SHA-512 with option to add salt
 
 - <b>[hashPBK](#)</b> | Hash and salt via PBKDF2
@@ -54,7 +55,7 @@ npm install --save cryptic-js
 
 ---
 
-- <b>data</b> ( String | Buffer | TypeArray | DataView | Array | Object ): data to encrypt
+- <b>data</b> ( String | Buffer ): data to encrypt
 
 - <b>key</b> ( String | Buffer ): secret key for encryption ( 16 Bytes )
 
@@ -81,17 +82,6 @@ const { encrypted, iv } = encrypt(data, key);
 
 console.log(encrypted);
 // output: fe7bdf15e0dc7377bf2c0b9a34f3b7ed
-
-/*
-  Example with custom options:
-
-  encrypt(data, key, {
-    inE: *some valid encoding*,
-    outE: *some valid encoding*,
-    iv: *something of 16 bytes*,
-  });
-
-*/
 ```
 
 ### <b>decrypt (encrypted, key, iv, [ options])</b>
@@ -106,8 +96,8 @@ console.log(encrypted);
 
 * <b>options</b> ( Object ):
   - <b>inE</b> ( String ): encoding of the encrypted string (<b>default:</b> "hex")
-  -  ( String ): encoding of the output string/data (<b>default:</b> "utf-8")
-    - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+  - ( String ): encoding of the output string/data (<b>default:</b> "utf-8")
+  - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
 <br/>
 
@@ -134,16 +124,6 @@ const decrypted = decrypt(encrypted, key, iv);
 
 console.log(decrypted);
 // output: 1337
-
-/*
-  Example with custom encodings:
-
-  decrypt(data, key, iv, {
-    inE: *some valid encoding*,
-    outE: *some valid encoding*,
-  });
-
-*/
 ```
 
 ### <b>encryptCCM (data, key, [ options])</b>
@@ -163,7 +143,7 @@ console.log(decrypted);
 
   - <b>tagLength</b> ( Number ): Length of the authorization tag in bytes (<b>default:</b> 16)
 
-  - <b>aad</b> ( String | Buffer ) (Optional): Additional authenticated data
+  - <b>aad</b> ( String | Buffer ): Additional authenticated data
 
     - <b>(Valid tag lengths)</b>: 4, 6, 8, 10, 12, 14 or 16
 
@@ -192,18 +172,6 @@ console.log(t1);
 // outputs: <Buffer d7 88 93 20 9a e3 f2 ec 45 70 22 c7 a4 e4 cc 2c>
 console.log(t2);
 // outputs: <Buffer 47 e4 a9 38 55 d4 fc 93 5b 90 c7 5c 1f d1 3f 01>
-
-/*
-  Example with custom options:
-
-  encryptCCM(data, key, {
-    inE: *some valid encoding*,
-    outE: *some valid encoding*,
-    aad: *some Buffer or string*,
-    tagLength: *some valid tag length*,
-  });
-
-*/
 ```
 
 ### <b>decryptCCM (encrypted, key, iv, tag, [ options])</b>
@@ -228,7 +196,7 @@ Decrypts encrypted string via AES-256-CCM using the same key, iv, and tag from e
 
   - <b>tagLength</b> ( Number ): Length of the authorization tag in bytes (<b>default:</b> 16)
 
-  - <b>aad</b> ( String | Buffer ) (Optional): Additional authenticated data
+  - <b>aad</b> ( String | Buffer ): Additional authenticated data
 
     - <b>(Valid tag lengths)</b>: 4, 6, 8, 10, 12, 14 or 16
 
@@ -264,19 +232,6 @@ const decrypted = decryptCCM(encrypted, key, iv, tag, { aad });
 
 console.log(decrypted);
 // output: important message
-
-
-/*
-  Example with custom options:
-
-  decryptCCM(data, key, iv, {
-    inE: *some valid encoding*,
-    outE: *some valid encoding*,
-    aad: *some Buffer or string*,
-    tagLength: *some valid tag length*,
-  });
-
-*/
 ```
 
 ### <b> Class: AES (key) </b>
@@ -327,12 +282,6 @@ const encrypted = aes.encrypt(data);
 
 console.log(encrypted);
 // outputs: 2fa6002ba81918c6....4fa0fda029a2e715cf5
-
-/*
-  To change the encoding on the input / output:
-
-  aes.encrypt(data, *some valid encoding*, *some valid encoding*);
-*/
 ```
 
 ### <b> AES.decrypt (encrypted, [ inEncoding], [ outEncoding]) </b>
@@ -363,12 +312,6 @@ const decrypted = aes.decrypt(encrypted);
 
 console.log(decrypted);
 // outputs: important message
-
-/*
-  To change the encoding on the input / output:
-
-  aes.decrypt(data, *some valid encoding*, *some valid encoding*);
-*/
 ```
 
 ### <b> Class: AES_CCM (key) </b>
@@ -404,7 +347,7 @@ const aesCCM = new AES_CCM(key);
 
   - <b>tagLength</b> ( Number ): Length of the authorization tag in bytes (<b>default:</b> 16)
 
-  - <b>aad</b> ( String | Buffer ) (Optional): Additional authenticated data
+  - <b>aad</b> ( String | Buffer ): Additional authenticated data
 
     - <b>(Valid tag lengths)</b>: 4, 6, 8, 10, 12, 14 or 16
 
@@ -434,17 +377,6 @@ console.log(t1);
 // outputs: <Buffer 07 78 39 4b 77 36 fe 2e f0 3c 37 fd 43 ba c9 fe>
 console.log(t2);
 // outputs: <Buffer 83 ef 07 e6 92 43 2e d4 26 36 f4 9b c2 71 be 9e>
-
-/*
-  Example with custom options:
-
-  AES_CCM.encrypt(data, {
-    inE: *some valid encoding*,
-    outE: *some valid encoding*,
-    aad: *some Buffer or string*,
-    tagLength: *some valid tag length*,
-  });
-*/
 ```
 
 ### <b> AES_CCM.decrypt (encrypted, tag, [ options]) </b>
@@ -463,7 +395,7 @@ console.log(t2);
 
   - <b>tagLength</b> ( Number ): Length of the authorization tag in bytes (<b>default:</b> 16)
 
-  - <b>aad</b> ( String | Buffer ) (Optional): Additional authenticated data
+  - <b>aad</b> ( String | Buffer ): Additional authenticated data
 
     - <b>(Valid tag lengths)</b>: 4, 6, 8, 10, 12, 14 or 16
 
@@ -499,20 +431,8 @@ console.log(decrypted1);
 // outputs: {"test":"hello"}
 console.log(decrypted2);
 // outputs: {"test":"hello"}
-
-
-/*
-  Example with custom options:
-
-  aesCCM.decrypt(data, {
-    inE: *some valid encoding*,
-    outE: *some valid encoding*,
-    aad: *some Buffer or string*,
-    tagLength: *some valid tag length*,
-  });
-
-*/
 ```
+
 ### <b>encryptFile (file, key)</b>
 
 ---
@@ -524,6 +444,7 @@ console.log(decrypted2);
 Encrypts a file via AES-256-CBC w/ HMAC-SHA-256, and returns the IV required for decryption of the file, will encrypt file data into binary encoding.
 
 <b>Example usage</b>:
+
 ```
 const { secretKey, encryptFile } = require('cryptic-js');
 
@@ -539,15 +460,18 @@ const iv = encryptFile(file, key);
 
 - <b>file</b>: Relative path to file to encrypt
 
-- <b>key</b> ( 16 Byte Buffer | String ) : Secret key to encrypt the file with
+- <b>key</b> ( 16 Byte Buffer | String ): Secret key to encrypt the file with
 
 - <b>iv</b> ( 16 Byte Buffer | String ): Initial vector from encryption
 
 - <b>encoding</b> ( String ): encoding of the output data written to the file (<b>default</b>: "utf-8")
 
-Decrypts a file via AES-256-CBC w/ HMAC-SHA-256, will write to the file in the provided encoding but will default to "utf-8".
+  - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+
+Decrypts a file via AES-256-CBC w/ HMAC-SHA-256, and will write to the file in the provided encoding but will default to "utf-8".
 
 <b>Example usage</b>:
+
 ```
 const {
   secretKey,
@@ -563,3 +487,128 @@ const iv = encryptFile(file, key);
 decryptFile(file, key, iv);
 ```
 
+### <b>encryptFileCCM (file, key, [ aad])</b>
+
+---
+
+- <b>file</b>: Relative path to file to encrypt
+
+- <b>key</b> ( 16 Byte Buffer | String ) : Secret key to encrypt the file with ( 16 Bytes )
+
+Encrypts a file via AES-256-CBC with the option for AAD, and returns the IV and authorization tag required for decryption of the file, will encrypt file data into binary encoding.
+
+<b>Example usage</b>:
+
+```
+const key = secretKey(16);
+const file = './passwords.txt';
+const aad = 'secretPassword';
+
+const { iv, tag } = encryptFileCCM(file, key, aad);
+
+console.log(iv);
+// outputs: <Buffer 17 a2 6b eb ea 39 1b 3d 0e cd e6 ea 55>
+console.log(tag);
+// outputs: <Buffer ec 6c d7 07 f4 50 e2 eb 97 b8 83 38 48 15 70 a3>
+```
+
+### <b>decryptFileCCM (file, key, iv, tag, [ options])</b>
+
+---
+
+- <b>file</b>: Relative path to file to encrypt
+
+- <b>key</b> ( 16 Byte Buffer | String ): Secret key to encrypt the file with
+
+- <b>iv</b> ( 16 Byte Buffer | String ): Initial vector from encryption
+
+* <b>options</b> ( Object ):
+
+  - <b>encoding</b> ( String ): encoding of the output data written to the file (<b>default</b>: "utf-8")
+
+  - <b>aad</b> ( String | Buffer ): Additional authenticated data
+
+    - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+
+Decrypts a file via AES-256-CCM, and will write to the file in the provided encoding but will default to "utf-8".
+
+<b>Example usage</b>:
+
+```
+const key = secretKey(16);
+const file = './passwords.txt';
+const aad = 'secretPassword';
+
+const { iv, tag } = encryptFileCCM(file, key, aad);
+
+console.log(iv);
+// outputs: <Buffer 17 a2 6b eb ea 39 1b 3d 0e cd e6 ea 55>
+console.log(tag);
+// outputs: <Buffer ec 6c d7 07 f4 50 e2 eb 97 b8 83 38 48 15 70 a3>
+
+decryptFileCCM(file, key, iv, tag, { aad });
+```
+
+### <b> hashSHA (data, [ salt]) </b>
+
+---
+
+- <b>data</b> ( String | Buffer ): Data to hash
+
+- <b>salt</b> ( String | Buffer ): Salt to add to the hash
+
+Hash data with optional salt via SHA-215
+
+<b> Example usage: </b>
+
+```
+const { hashSHA } = require('cryptic-js');
+
+const data = 'myPassword';
+const salt = 'salty';
+
+const unsalted = hashSHA(data);
+const salted = hashSHA(data, salt);
+
+console.log(unsalted);
+// outputs: 450ad03db9395d2...
+console.log(salted);
+// outputs: d98dd23ac326054...
+```
+
+### <b> hashPBK (data, [ options]) </b>
+
+---
+
+- <b>data</b> ( String | Buffer ): Data to hash
+
+* <b> options </b> (Object):
+
+  - <b> salt </b> ( String | Buffer ): Salt to add to the hash (<b>default</b>: 116-10116 random bytes)
+
+  - <b> iters </b> ( Number ): Number of iterations, the more the better the hash, but the longer it will take (<b>default</b>: 100000)
+
+  - <b> keyLen </b> ( Number ): Length of the output key (<b>default</b>: 64)
+
+  - <b> digest </b> ( String ): Digest algorithim for the hash (<b>default</b>: "sha512")
+
+  - <b> encoding </b> ( String ): Encoding of the output hash (<b>default</b>: "hex")
+
+    - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+
+    - <b>(Valid digests)</b>: sha1, sha256, sha512, md5
+
+Hash and salt data via PBKDF2, will default the digest to use SHA-512 and the encoding will be defaulted to Hex.
+
+<b> Example usage</b>:
+
+```
+const { hashPBK } = require('cryptic-js');
+
+const data = 'myPassword';
+
+const hash = hashPBK(data);
+
+console.log(hash);
+// outputs: 167620e0e3e44d73....
+```
