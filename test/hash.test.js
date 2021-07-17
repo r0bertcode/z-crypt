@@ -13,7 +13,7 @@ test('hashSHA should work as expected', () => {
 });
 
 test('hashPBK should work as expected', () => {
-  const data = '123456778';
+  const data = {'123456778': true };
   const salt = 'customSalt';
 
   const h1 = hashPBK(data);
