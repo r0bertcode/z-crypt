@@ -542,7 +542,7 @@ Decrypts a file via AES-256-CCM, and will write to the file in the provided enco
 const {
   secretKey,
   encryptFileCCM,
-  decryptFileCCM,  
+  decryptFileCCM,
 } = require('z-crypt');
 
 const key = secretKey();
@@ -567,7 +567,7 @@ decryptFileCCM(file, key, iv, tag, { aad });
 
 - <b>salt</b> ( String | Buffer ): Salt to add to the hash
 
-Hash data with optional salt via SHA-215
+Return a hash from data via SHA-512 with the option of adding a salt.
 
 <b> Example usage: </b>
 
@@ -608,7 +608,7 @@ console.log(salted);
 
     - <b>(Valid digests)</b>: sha1, sha256, sha512, md5
 
-Hash and salt data via PBKDF2, will default the digest to use SHA-512 and the encoding will be defaulted to Hex.
+Return a salted hash from data via PBKDF2, will default the digest to use SHA-512 and the encoding will be defaulted to Hex.
 
 <b> Example usage</b>:
 
