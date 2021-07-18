@@ -1,13 +1,13 @@
-# cryptic-js
+# z-crypt
 
-The cryptic-js library is a cryptography library for Node.js created on-top of Node.js' Crypto module.
+The z-crypt library is a cryptography library for Node.js created on-top of Node.js' Crypto module.
 
 It provides a standardized library to functions or classes for encryption/decryption of strings, buffers, and files utilizing AES-256-CBC with HMAC-SHA-256 and AES with CCM Mode and AAD (Additional authenticated data) via AES-256-CCM, and hashing/salting via PBKDF2S and SHA512.
 
 If you need more information than what this documentation provides, just reach out and I will reply as soon as I can.
 
 ```
-npm install --save cryptic-js
+npm install --save z-crypt
 ```
 
 ## Table of contents
@@ -73,7 +73,7 @@ Encrypts data with provided key via AES-256-CBC-HMAC-SHA-256, and returns the en
 <b>Example Usage:</b>
 
 ```
-const { encrypt, secretKey } = require('cryptic-js');
+const { encrypt, secretKey } = require('z-crypt');
 
 const data = '1337';
 const key = secretKey(16);
@@ -110,7 +110,7 @@ const {
   encrypt,
   decrypt,
   secretKey,
-} = require('cryptic-js');
+} = require('z-crypt');
 
 const data = '1337';
 const key = secretKey(16);
@@ -154,7 +154,7 @@ Encrypts data with provided key via AES-256-CCM, and returns the encrypted strin
 <b>Example usage:</b>
 
 ```
-const { encryptCCM, secretKey } = require('cryptic-js');
+const { encryptCCM, secretKey } = require('z-crypt');
 
 const key = secretKey(16);
 const aad = 'superPassword';
@@ -209,7 +209,7 @@ const {
   encryptCCM,
   decryptCCM,
   secretKey,
-} = require('cryptic-js');
+} = require('z-crypt');
 
 
 const key = secretKey(16);
@@ -243,7 +243,7 @@ The AES Class implements encryption and decryption via AES-256-CBC w/ HMAC-SHA-2
 - <b>AES.ivTable</b>: A object that is populated with key value pairs of encrypted strings matched with their Initial Vector, the string will automatically clear the string with it's IV on decryption, or load it on encryption. This object can be used to access the IV for a specific encrypted string.
 
 ```
-const { secretKey, AES } = require('cryptic-js');
+const { secretKey, AES } = require('z-crypt');
 
 const key = secretKey(16);
 const aes = new AES(key);
@@ -270,7 +270,7 @@ Encrypt data with the key from the instance, using AES-256-CBC with HMAC-SHA-256
 <b> Example usage</b>:
 
 ```
-const { secretKey, AES } = require('cryptic-js');
+const { secretKey, AES } = require('z-crypt');
 
 const key = secretKey(16);
 const aes = new AES(key);
@@ -295,7 +295,7 @@ console.log(encrypted);
   - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
 ```
-const { secretKey, AES } = require('cryptic-js');
+const { secretKey, AES } = require('z-crypt');
 
 const key = secretKey(16);
 const aes = new AES(key);
@@ -321,7 +321,7 @@ The AES_CCM Class implements encryption and decryption via AES-256-CCM Mode with
 - <b>AES_CCM.ivTable</b>: A object that is populated with key value pairs of encrypted strings matched with their Initial Vector, the string will automatically clear the string with it's IV on decryption, or load it on encryption. This object can be used to access the IV for a specific encrypted string.
 
 ```
-const { secretKey, AES_CCM } = require('cryptic-js');
+const { secretKey, AES_CCM } = require('z-crypt');
 
 const key = secretKey(16);
 const aesCCM = new AES_CCM(key);
@@ -356,7 +356,7 @@ Encrypts data with provided key via AES-256-CCM, and returns the encrypted strin
 <b>Example usage</b>:
 
 ```
-const { secretKey, AES_CCM } = require('cryptic-js');
+const { secretKey, AES_CCM } = require('z-crypt');
 
 const key = secretKey(16);
 const aesCCM = new AES_CCM(key);
@@ -402,7 +402,7 @@ console.log(t2);
 <b>Example usage:</b>
 
 ```
-const { secretKey, AES_CCM } = require('cryptic-js');
+const { secretKey, AES_CCM } = require('z-crypt');
 
 const key = secretKey(16);
 const aesCCM = new AES_CCM(key);
@@ -444,7 +444,7 @@ Encrypts a file via AES-256-CBC w/ HMAC-SHA-256, and returns the IV required for
 <b>Example usage</b>:
 
 ```
-const { secretKey, encryptFile } = require('cryptic-js');
+const { secretKey, encryptFile } = require('z-crypt');
 
 const key = secretKey(16);
 const file = './passwords.txt';
@@ -475,7 +475,7 @@ const {
   secretKey,
   encryptFile,
   decryptFile,
-} = require('cryptic-js');
+} = require('z-crypt');
 
 const key = secretKey(16);
 const file = './passwords.txt';
@@ -560,7 +560,7 @@ Hash data with optional salt via SHA-215
 <b> Example usage: </b>
 
 ```
-const { hashSHA } = require('cryptic-js');
+const { hashSHA } = require('z-crypt');
 
 const data = 'myPassword';
 const salt = 'salty';
@@ -601,7 +601,7 @@ Hash and salt data via PBKDF2, will default the digest to use SHA-512 and the en
 <b> Example usage</b>:
 
 ```
-const { hashPBK } = require('cryptic-js');
+const { hashPBK } = require('z-crypt');
 
 const data = 'myPassword';
 
@@ -622,7 +622,7 @@ Returns a hex key from a amount of random bytes.
 <b> Example usage </b>:
 
 ```
-const { secretKey } = require('cryptic-js');
+const { secretKey } = require('z-crypt');
 
 const key = secretKey();
 
