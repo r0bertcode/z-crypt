@@ -160,8 +160,8 @@ const key = secretKey();
 const aad = 'superPassword';
 
 const data = JSON.stringify({ test: 'hello' });
-const { encrypted: e1, tag: t1 } = encryptCCM(data, key);
-const { encrypted: e2, tag: t2 } = encryptCCM(data, key, { aad });
+const { encrypted: e1, tag: t1, iv: iv1 } = encryptCCM(data, key);
+const { encrypted: e2, tag: t2, iv: iv2 } = encryptCCM(data, key, { aad });
 
 console.log(e1);
 // outputs: 1494ec89011cf5f8c1215bd61df96444
@@ -353,7 +353,7 @@ const aesCCM = new AES_CCM(key);
 
     - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
-Encrypts data with provided key via AES-256-CCM, and returns the encrypted string as well as the IV (Initial Vector) from encryption and the tag (Authorization tag) that is required for decryption, defaults encoding for the input to UTF-8 and the output encrypted stsring to Hex. Adding in an AAD can be particulary useful when a secret key is shared and there needs to be limitations / authorization.
+Encrypts data with provided key via AES-256-CCM, and returns the encrypted string and the tag (Authorization tag) that is required for decryption, defaults encoding for the input to UTF-8 and the output encrypted stsring to Hex. Adding in an AAD can be particulary useful when a secret key is shared and there needs to be limitations / authorization.
 
 <b>Example usage</b>:
 
