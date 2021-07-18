@@ -26,7 +26,7 @@ test('encryptFile and decrpytFile should work as expected', () => {
 test('encryptFileCCM and decryptFileCCM should work as expected w/ or w/o AAD', () => {
   const testFile1 = path.join(__dirname, '/textFiles/file_test_2.txt');
   const testFile2 = path.join(__dirname, '/textFiles/file_test_3.txt');
-  const aad = 'mySecretPass';
+  const aad = '';
 
   const { iv: iv1, tag: tag1 } = encryptFileCCM(testFile1, key);
   const { iv: iv2, tag: tag2 } = encryptFileCCM(testFile2, key, aad);
@@ -41,7 +41,7 @@ test('encryptFileCCM and decryptFileCCM should work as expected w/ or w/o AAD', 
   expect(str2).not.toEqual('1337');
 
   decryptFileCCM(testFile1, key, iv1, tag1);
-  decryptFileCCM(testFile2, key, iv2, tag2, aad);
+  decryptFileCCM(testFile2, key, iv2, tag2, { aad });
 
   buff1 = readFileSync(testFile1);
   buff2 = readFileSync(testFile2);

@@ -1,8 +1,8 @@
 # cryptic-js
 
-The cryptic library is a cryptography library for Node.js created on-top of Node.js' Crypto module.
+The cryptic-js library is a cryptography library for Node.js created on-top of Node.js' Crypto module.
 
-It provides a standardized API to functions or classes for encryption/decryption of strings, buffers, and files utilizing AES-256-CBC with HMAC-SHA-256 and AES with CCM Mode and AAD (Additional authenticated data) via AES-256-CCM, and hashing/salting via PBKDF2S and SHA512.
+It provides a standardized library to functions or classes for encryption/decryption of strings, buffers, and files utilizing AES-256-CBC with HMAC-SHA-256 and AES with CCM Mode and AAD (Additional authenticated data) via AES-256-CCM, and hashing/salting via PBKDF2S and SHA512.
 
 If you need more information than what this documentation provides, just reach out and I will reply as soon as I can.
 
@@ -24,28 +24,28 @@ npm install --save cryptic-js
 
 ### Encryption / decryption classes
 
-- <b>[AES Class](#AES-Class)</b> | AES-256-CBC with HMAC-SHA-256
-  - <b>[encrypt](#AES.encrypt)</b>
-  - <b>[decrypt](#AES.decrypt)</b>
-- <b>[AES CCM Class](#AES-CCM-Class)</b> | AES-256-CCM with optional AAD
-  - <b>[encrypt](#AES_CCM.encrypt)</b>
-  - <b>[decrypt](#AES_CCM.decrypt)</b>
+- <b>[AES Class](#-class-aes-key-)</b> | AES-256-CBC with HMAC-SHA-256
+  - <b>[encrypt](#-aesencrypt-data--inencoding--outencoding-)</b>
+  - <b>[decrypt](#-aesencrypt-data--inencoding--outencoding-)</b>
+- <b>[AES CCM Class](#-aesencrypt-data--inencoding--outencoding-)</b> | AES-256-CCM with optional AAD
+  - <b>[encrypt](#-aes_ccmencrypt-data--options-)</b>
+  - <b>[decrypt](#-aes_ccmdecrypt-encrypted-tag--options-)</b>
 
 ### File encryption / decryption
 
-- <b>[encryptFile](#)</b> | AES-256-CBC with HMAC-SHA256 file encryption
+- <b>[encryptFile](#encryptfile-file-key)</b> | AES-256-CBC with HMAC-SHA256 file encryption
 
-- <b>[decryptFile](#)</b> | AES-256-CBC with HMAC-SHA256 file decryption
+- <b>[decryptFile](#decryptfile-file-key-iv--encoding)</b> | AES-256-CBC with HMAC-SHA256 file decryption
 
-- <b>[encryptFileCCM](#)</b> | AES-256-CCM file encryption with optional AAD
+- <b>[encryptFileCCM](#encryptfileccm-file-key--aad)</b> | AES-256-CCM file encryption with optional AAD
 
-- <b>[decryptFileCCM](#)</b> | AES-256-CCM file decryption with optional AAD
+- <b>[decryptFileCCM](#decryptfileccm-file-key-iv-tag--options)</b> | AES-256-CCM file decryption with optional AAD
 
 ### Hashing
 
-- <b>[hashSHA](#)</b> | Hash via SHA-512 with option to add salt
+- <b>[hashSHA](#-hashsha-data--salt-)</b> | Hash via SHA-512 with option to add salt
 
-- <b>[hashPBK](#)</b> | Hash and salt via PBKDF2
+- <b>[hashPBK](#-hashpbk-data--options-)</b> | Hash and salt via PBKDF2
 
 ### Util
 
@@ -217,8 +217,6 @@ const data = 'important message';
 const aad = 'someSpecialPass';
 
 const { encrypted, tag, iv } = encryptCCM(data, key, { aad });
-
-// Without AAD: const { encrypted, tag, iv } = encryptCCM(data, key);
 
 console.log(tag);
 // output: <Buffer 48 dd ab 41 ab 2d 1a 9b 7d d6 44 a0 7d f9 49 c5>
@@ -611,4 +609,23 @@ const hash = hashPBK(data);
 
 console.log(hash);
 // outputs: 167620e0e3e44d73....
+```
+
+### <b> secretKey ([ bytes]) </b>
+
+---
+
+- <b> bytes </b> ( Number ): Amount of bytes for the hex key (<b>default</b>: 16)
+
+Returns a hex key from a amount of random bytes.
+
+<b> Example usage </b>:
+
+```
+const { secretKey } = require('cryptic-js');
+
+const key = secretKey();
+
+console.log(key);
+// outputs: 33acac780481ac9341df3528a3b1e7fb
 ```
