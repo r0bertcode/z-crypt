@@ -49,7 +49,7 @@ npm install --save cryptic-js
 
 ### Util
 
-- <b>[secretKey](#)</b> Obtain a key of N-Bytes in a hex string for a secretKey or a random hex of N Byte length
+- <b>[secretKey](#-secretkey--bytes-)</b> Obtain a key of N-Bytes in a hex string for a secretKey or a random hex of N Byte length
 
 ### <b>encrypt (data, key, [ options])</b>
 

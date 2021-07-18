@@ -26,7 +26,7 @@ test('encryptFile and decrpytFile should work as expected', () => {
 test('encryptFileCCM and decryptFileCCM should work as expected w/ or w/o AAD', () => {
   const testFile1 = path.join(__dirname, '/textFiles/file_test_2.txt');
   const testFile2 = path.join(__dirname, '/textFiles/file_test_3.txt');
-  const aad = '';
+  const aad = 'mySecretPass';
 
   const { iv: iv1, tag: tag1 } = encryptFileCCM(testFile1, key);
   const { iv: iv2, tag: tag2 } = encryptFileCCM(testFile2, key, aad);
@@ -51,4 +51,20 @@ test('encryptFileCCM and decryptFileCCM should work as expected w/ or w/o AAD', 
 
   expect(str1).toEqual('world');
   expect(str2).toEqual('1337');
+});
+
+test('File decryption should work with JSON files', () => {
+  const testFile = path.join(__dirname, '/textFiles/file_test_4.json');
+
+  const iv = encryptFile(testFile, key);
+
+  let fileBuffer = readFileSync(testFile);
+  let string = fileBuffer.toString('utf-8').trim();
+
+  decryptFile(testFile, key, iv);
+
+  fileBuffer = readFileSync(testFile);
+  string = fileBuffer.toString('utf-8').trim();
+
+  expect(JSON.parse(string).hello).toEqual(true);
 });
