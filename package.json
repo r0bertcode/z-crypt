@@ -10,8 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/r0bertcode/z-crypt.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "crypto",
+    "node",
+    "encryption",
+    "hash"
+  ],
+  "author": "Robert Lopez",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/r0bertcode/z-crypt/issues"
