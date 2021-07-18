@@ -294,6 +294,8 @@ console.log(encrypted);
 
   - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
 
+Decrypt encrypted string with the key from the instance, using AES-256-CBC with HMAC-SHA-256, returns the decrypted string, defaults encoding for the input to Hex and the decrypted output to UTF-8.
+
 ```
 const { secretKey, AES } = require('z-crypt');
 
@@ -398,6 +400,8 @@ console.log(t2);
     - <b>(Valid tag lengths)</b>: 4, 6, 8, 10, 12, 14 or 16
 
     - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+
+Decrypt encrypted string with the key from the instance, using AES-256-CCM, requiring the authTag and the AAD if one was provided in encryption, returns the decrypted string, defaults encoding for the input to Hex and the decrypted output to UTF-8.
 
 <b>Example usage:</b>
 
