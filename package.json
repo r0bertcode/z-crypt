@@ -1,6 +1,6 @@
 {
   "name": "z-crypt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node.js Library for encryption, decryption, and hashing.",
   "main": "lib/index.js",
   "scripts": {
