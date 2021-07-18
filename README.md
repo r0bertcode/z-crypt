@@ -76,7 +76,7 @@ Encrypts data with provided key via AES-256-CBC-HMAC-SHA-256, and returns the en
 const { encrypt, secretKey } = require('z-crypt');
 
 const data = '1337';
-const key = secretKey(16);
+const key = secretKey();
 
 const { encrypted, iv } = encrypt(data, key);
 
@@ -113,7 +113,7 @@ const {
 } = require('z-crypt');
 
 const data = '1337';
-const key = secretKey(16);
+const key = secretKey();
 
 const { encrypted, iv } = encrypt(data, key);
 
@@ -156,7 +156,7 @@ Encrypts data with provided key via AES-256-CCM, and returns the encrypted strin
 ```
 const { encryptCCM, secretKey } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const aad = 'superPassword';
 
 const data = JSON.stringify({ test: 'hello' });
@@ -212,7 +212,7 @@ const {
 } = require('z-crypt');
 
 
-const key = secretKey(16);
+const key = secretKey();
 const data = 'important message';
 const aad = 'someSpecialPass';
 
@@ -245,7 +245,7 @@ The AES Class implements encryption and decryption via AES-256-CBC w/ HMAC-SHA-2
 ```
 const { secretKey, AES } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const aes = new AES(key);
 
 /*
@@ -272,7 +272,7 @@ Encrypt data with the key from the instance, using AES-256-CBC with HMAC-SHA-256
 ```
 const { secretKey, AES } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const aes = new AES(key);
 
 const data = 'important message';
@@ -297,7 +297,7 @@ console.log(encrypted);
 ```
 const { secretKey, AES } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const aes = new AES(key);
 
 const data = 'important message';
@@ -323,7 +323,7 @@ The AES_CCM Class implements encryption and decryption via AES-256-CCM Mode with
 ```
 const { secretKey, AES_CCM } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const aesCCM = new AES_CCM(key);
 
 /*
@@ -358,7 +358,7 @@ Encrypts data with provided key via AES-256-CCM, and returns the encrypted strin
 ```
 const { secretKey, AES_CCM } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const aesCCM = new AES_CCM(key);
 const aad = 'superPassword';
 
@@ -404,7 +404,7 @@ console.log(t2);
 ```
 const { secretKey, AES_CCM } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const aesCCM = new AES_CCM(key);
 const aad = 'superPassword';
 
@@ -446,7 +446,7 @@ Encrypts a file via AES-256-CBC w/ HMAC-SHA-256, and returns the IV required for
 ```
 const { secretKey, encryptFile } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const file = './passwords.txt';
 
 const iv = encryptFile(file, key);
@@ -477,7 +477,7 @@ const {
   decryptFile,
 } = require('z-crypt');
 
-const key = secretKey(16);
+const key = secretKey();
 const file = './passwords.txt';
 
 const iv = encryptFile(file, key);
@@ -498,7 +498,9 @@ Encrypts a file via AES-256-CBC with the option for AAD, and returns the IV and 
 <b>Example usage</b>:
 
 ```
-const key = secretKey(16);
+const { secretKey, encryptFileCCM } = require('z-crypt');
+
+const key = secretKey();
 const file = './passwords.txt';
 const aad = 'secretPassword';
 
@@ -533,7 +535,13 @@ Decrypts a file via AES-256-CCM, and will write to the file in the provided enco
 <b>Example usage</b>:
 
 ```
-const key = secretKey(16);
+const {
+  secretKey,
+  encryptFileCCM,
+  decryptFileCCM,  
+} = require('z-crypt');
+
+const key = secretKey();
 const file = './passwords.txt';
 const aad = 'secretPassword';
 
