@@ -178,8 +178,6 @@ console.log(t2);
 
 ---
 
-Decrypts encrypted string via AES-256-CCM using the same key, iv, and tag from encryption of that string. Will return the decrypted data in the encoding of choice (<b>default:</b> "utf-8"), if the 'aad' option was used in encryption, it is required for decryption.
-
 - <b>encrypted</b> ( String | Buffer ): Encrypted string to decrypt
 
 - <b>key</b> ( 16 Byte Buffer | String ) : Secret key that was used in encryption
@@ -201,6 +199,8 @@ Decrypts encrypted string via AES-256-CCM using the same key, iv, and tag from e
     - <b>(Valid tag lengths)</b>: 4, 6, 8, 10, 12, 14 or 16
 
     - <b>(Valid encodings)</b>: utf-8, ascii, base64, hex, ucs-2, binary, latin1
+
+Decrypts encrypted string via AES-256-CCM using the same key, iv, and tag from encryption of that string. Will return the decrypted data in the encoding of choice (<b>default:</b> "utf-8"), if the 'aad' option was used in encryption, it is required for decryption.
 
 <b>Example usage:</b>
 
