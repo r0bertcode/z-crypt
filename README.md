@@ -184,7 +184,7 @@ console.log(t2);
 
 - <b>tag</b> ( String | Buffer ): Authorization tag generated from encryption
 
-- <b>iv</b> ( 16 Byte Buffer | String ): Initial vector used in encryption
+- <b>iv</b> ( 13 Byte Buffer | String ): Initial vector used in encryption
 
 * <b>options</b> ( Object ):
 
@@ -524,7 +524,7 @@ console.log(tag);
 
 - <b>key</b> ( 16 Byte Buffer | String ): Secret key to encrypt the file with
 
-- <b>iv</b> ( 16 Byte Buffer | String ): Initial vector from encryption
+- <b>iv</b> ( 13 Byte Buffer | String ): Initial vector from encryption
 
 * <b>options</b> ( Object ):
 
